@@ -1,0 +1,731 @@
+html , body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html , body {
+    font-family: 'Roboto', sans-serif!important;
+    font-size: 13.5px!important;
+}
+
+div.app{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    z-index: 1;
+    background: #e8e8e8;
+    color: #555555;
+}
+
+div.wrapper {
+    position: absolute;
+    top: 112px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+}
+
+main.mdl-layout__content {
+    padding: 20px 0;
+}
+
+div.logo{
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.block {
+    width: 320px;
+    margin: 50px auto;
+    background:#EAEAEA;
+}
+
+.page-content .block {
+    margin: 10px auto!important;
+}
+
+.block .login {
+    padding: 50px 25px;
+    box-shadow: 0px 0px 10px 0px #888888;
+}
+
+.block .login .input-block {
+    margin: 20px 0px;
+}
+
+.displayNone{
+    display: none;
+}
+
+.formErrors{
+    font-weight: 500;
+    padding: 0px 5px;
+    text-transform: capitalize;
+    font-size: 12px;
+}
+
+div.layout-padding{
+    padding: 8px;
+}
+
+td a{
+    padding: 0px 5px;
+}
+
+table.mdl-data-table {
+    margin-bottom: 1px;
+}
+
+.dark-color{
+    color: #555555;
+}
+
+header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.has-fixed-header{
+    margin-top: 64px;
+}
+
+.z-index-1 {
+    z-index: 1;
+}
+
+.mdl-dialog .title{
+    font-weight: 600;
+    margin: 24px 0 0 0;
+}
+
+dialog.mdl-dialog {
+    color: #555555;
+}
+
+.img-responsive {
+    max-width: 75%;
+    height: 49vh;
+}
+
+section.layout-padding{
+    padding: 25px;
+}
+
+@media screen and (max-width: 568px) {
+    section.layout-padding{
+        padding: 10px;
+    }    
+}
+
+.mdl-custom-tab--link {
+    margin: 0;
+    border: none;
+    padding: 0 24px;
+    float: left;
+    position: relative;
+    display: block;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    text-decoration: none;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.6);
+    overflow: hidden;
+}
+
+.mdl-custom-tab--link.is-active {
+    color: rgb(255,255,255);
+}
+
+.mdl-custom-tab--link.is-active::after {
+    height: 2px;
+    width: 100%;
+    display: block;
+    content: " ";
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    background: rgb(68,138,255);
+    -webkit-animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards;
+    animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards;
+    transition: all 1s cubic-bezier(.4,0,1,1);
+}
+
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+.text-center {
+    text-align: center!important;
+}
+
+.text-right {
+    text-align: right!important;
+}
+
+.font-md {
+    font-size: 18px!important;
+}
+
+.align-center {
+    width: 400px;
+    margin: 10px auto 20px auto;    
+    position: relative;
+}
+
+.content-editable-container {
+    padding: 15px;
+}
+
+.content-editable div:focus {
+    outline: none;
+}
+
+.content-editable .content-editable-title {
+    font-weight: 800;
+    height: 24px;
+    line-height: 24px;
+}
+
+.content-editable-container.content-container {
+    overflow: hidden;
+}
+
+.content-editable .content {
+    width: 100%;
+    min-height: 28px;
+    max-height: 180px;
+    line-height: 28px;
+    -webkit-transition: min-height .25s ease-out;
+	-moz-transition: min-height .25s ease-out;
+	-ms-transition: min-height .25s ease-out;
+	-o-transition: min-height .25s ease-out;
+    transition: min-height .25s ease-out;
+    overflow-x: hidden;
+    padding-right: 34px;
+}
+
+
+.content-editable .content:focus {
+    min-height: 80px;
+    overflow-y: auto;
+}
+
+.content-editable .content.has-value {
+    min-height: 80px;
+    overflow-y: auto;
+}
+
+.place-holder {
+    height: 28px;
+    line-height: 28px;
+    position: absolute;
+    pointer-events: none;
+}
+
+.content-editable-actions{
+    padding: 6px 10px;
+    height: 32px;
+}
+
+.content-editable-actions button {
+    font-size: 12px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.content-editable-actions button i {
+    font-size: 18px;
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+@media screen and (max-width: 435px) {
+    .align-center {
+        width: 100%;
+    }
+    .custom-dialog {
+        width: 100%;
+    }
+}
+
+.custom-dialog.mdl-dialog {
+    width: 400px;
+    padding: 0;
+    position: fixed;
+}
+
+.custom-dialog .align-center {
+    margin: 0 auto;
+}
+
+.color-palette-container{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    align-items: center;
+}
+
+.color-palette div {
+    width: 20px;
+    height: 20px;
+}
+
+.color-palette-text {
+    margin-left: 10px;
+}
+
+.bg-default {
+    background: #FFFFFF;
+}
+
+.box-shadow {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);
+}
+
+.flex-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.flex-box.column {
+    flex-direction: column!important;
+}
+
+.dropdown-width {
+    width: 248px;
+}
+
+.dropdown-width-auto {
+    width: auto;
+}
+
+.flex-box.dropdown-width li {
+    width: 37%;
+}
+
+.card-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 1200px) {
+    .page-content {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .page-content {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-width: 991px) and (max-width: 1200px) {
+    .page-content {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+
+.masonry-card {
+    cursor: default;
+    overflow: visible;
+    transition: all .2s ease-in-out;
+}
+
+.masonry-card:hover {
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
+    transform: scale(1.01);
+}
+
+.masonry-card .mdl-card__supporting-text {
+    padding: 13px;
+}
+
+hr.no-margin {
+    margin: 0;
+    border-width: 0.5px;
+}
+
+.card-action-icon {
+    position: absolute;
+    top: -12px;    
+    width: 20px;
+    height: 20px;
+    line-height: 26px;
+    padding: 4px;
+    text-align: center;
+    cursor: pointer;
+    background: #ffffff;
+    border-radius: 50%;
+    border: 0.5px solid #ddd;
+}
+
+.card-action-icon.delete {
+    right: -12px;
+}
+
+.card-action-icon.select {
+    left: -12px;
+}
+
+.card-action-icon i {
+    font-size: 16px;
+}
+
+i::selection {
+    background: transparent;
+}
+
+.masonry-card .mask {
+    position: absolute;
+    min-height: 100%;
+    width: 100%;
+}
+
+.hide {
+    display: none;
+}
+
+.note-card:hover .hide {
+    display: block;
+}
+
+.note-card {
+    cursor: default;
+}
+
+.note-card.selected .hide {
+    display: block;
+}
+
+.note-card.selected {
+    border: 2px solid #888;
+    transform: scale(0.99);
+}
+
+img.responsive {
+    max-width: 200px;
+    height: auto;
+    box-shadow: 0px 0px 5px 0px #888;
+}
+
+img.responsive.small {
+    max-width: 100%;
+    height: 100px;
+    box-shadow: 0px 0px 5px 1px #888;
+}
+
+.mdl-layout__content {
+    width: 100%;
+}
+
+.img-container {
+    position: relative;
+    width: 48%;
+    margin: 1%;
+    height: 100px;
+}
+
+.img-loader {
+    height: 3px;
+    width: 0%;
+    background: #4c8af4;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    text-align: center;
+    color: #333333;
+    -webkit-transition: all .25s ease-out;
+	-moz-transition: all .25s ease-out;
+	-ms-transition: all .25s ease-out;
+	-o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+}
+
+.img-container img.responsive {
+    filter: opacity(0.5);
+}
+
+.img-boxshadow {
+    box-shadow: 0px 0px 5px 1px #888;
+    height: 100px;
+}
+
+div.margin {
+    margin: 8px auto;
+}
+
+video.preview {
+    width: 100%;
+    height: 100px;
+}
+
+.masonry-card {
+    width: 296px;
+    box-shadow: rgba(0, 0, 0, 0.14902) 0px 2px 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.masonry-container {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    padding-top: 32px;
+}
+
+.masonry {
+    margin: 0 auto;
+}
+
+.notes-action {
+    line-height: 40px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 480px) {
+    .notes-action {
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .notes-action div.action {
+        width: 100%!important;
+        padding: 0!important;
+    }
+
+    .notes-action div.action.center-xxs {
+        text-align: center!important;
+    }
+
+    .notes-action div.action input {
+        width: 80%;
+    }
+}
+
+.notes-action div.action {
+    width: 50%;
+    padding: 0 20px;
+    position: relative;
+}
+
+.notes-action div.item-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.notes-action div.action input {
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 10px;
+    width: 200px;
+    box-shadow: 0px 0px 5px 0px #adadad inset;
+}
+
+.notes-action div.action button {
+    margin: 0 10px;
+}
+
+.custom-dropdown-link {
+    color: rgb(36, 67, 237);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.reduce-line-height .mdl-menu__item {
+    height: 32px;
+    line-height: 32px;
+}
+
+.flex-box .header {
+    text-align: center;
+    font-weight: 800;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.item-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+small.xs {
+    font-size: x-small;
+}
+
+.mdl-spinner.spinner-xs {
+    width: 17px;
+    height: 17px;
+}
+
+.mdl-spinner.spinner-xs .mdl-spinner__circle {
+    border-width: 2px;
+}
+
+.data-loader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, .2);
+}
+
+.custom-masonry { /* Masonry container */
+    margin: 1.5em 0;
+    padding: 0;
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 1.5em;
+    font-size: .85em;
+}
+
+.custom-masonry .item { /* Masonry bricks or child elements */
+    display: inline-block;
+    background: #FFFFFF;
+    padding: 1em;
+    margin: 0 0 1.5em;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 0px 0px 6px 0px #cccccc;
+    position: relative;
+    cursor: default;
+    z-index: 1000;
+}
+
+.custom-masonry .item .title, 
+.custom-masonry .item .content {
+    padding: 0 1em;
+}
+
+@media only screen and (min-width: 400px) {
+    .custom-masonry {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .custom-masonry {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .custom-masonry {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+
+.custom-masonry-wrapper {
+    width: 95%;
+    margin: 3em auto;
+}
+
+@media only screen and (min-width: 1280px) {
+    .custom-masonry-wrapper {
+        width: 100%;
+    }
+}
+
+.card-action-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.search-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.search-input.slide {
+    transform: scale(0,1);
+    transform-origin: right;
+    transition: all .5s ease;
+}
+
+.search-input.slide.in {
+    transform: scale(1,1);
+}
+
+.search-input .search {
+    background: white!important;
+}
+
+.full-page-loader {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.place-at-center {
+    margin: 0 auto;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
