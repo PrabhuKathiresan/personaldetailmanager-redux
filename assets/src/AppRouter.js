@@ -1,37 +1,44 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-
+import axios from 'axios';
 import Container from './components/Container';
 import Login from './components/Login';
+import Header from './components/sub/Header';
 
 class AppRouter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginRedirect: false
+      loginRedirect: false,
+      wrapperClass: 'wrapper'
     };
   }
 
   componentWillMount() {
-    console.log(this);
+    axios.get('/api/userinfo')
+      .then((res) => {
+        const data = res.data;
+        if (!data.success) {
+          this.setState({
+            loginRedirect: true
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
-    // const { loginRedirect } = this.state;
-
-    // if (loginRedirect) {
-    //   if (window.location.href.indexOf('/login') > -1) {
-    //     return <Login />;
-    //   }
-    //   return (
-    //     <Redirect to="/login" />
-    //   );
-    // }
-    console.log(this);
-
+    const { loginRedirect } = this.state;
+    if (loginRedirect) {
+      return <Redirect to="/login" />;
+    }
     return (
-      <div className="wrapper">
-        <Route path="/" component={Container} />
+      <div className={this.state.wrapperClass}>
+        <Switch>
+          <Route path={`${this.props.match.url}`} component={Container} />
+        </Switch>
       </div>
     );
   }

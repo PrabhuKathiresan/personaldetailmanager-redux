@@ -17,6 +17,7 @@ if (typeof window !== 'undefined') {
           <Route exact path="/" component={Login} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Redirect exact from="/app" to="/app/notes"/>
           <Route path="/app" component={AppRouter} />
         </Switch>
       </HashRouter>

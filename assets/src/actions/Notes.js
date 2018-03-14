@@ -6,12 +6,12 @@ function addNote(url, note) {
     console.log(res);
     return {
       type: actionType.ADD_NOTE,
-      note: res.details
+      note: res.data.details
     };
   }).catch(err => console.log(err));
 }
 
-function deletenote(url) {
+function deleteNote(url) {
   return api.get(url).then((res) => {
     console.log(res);
     return {
@@ -22,21 +22,23 @@ function deletenote(url) {
 }
 
 function getNotes(url) {
-  // return (dispatch => api.get(url).then((res) => {
-  //   console.log(res);
-  //   dispatch({
-  //     type: actionType.GET_NOTE,
-  //     notes: res.data.details
-  //   });
-  // }).catch(err => console.log(err)));
-  return api.get(url).then(res => ({
-    type: actionType.GET_NOTE,
-    notes: res.data.details
-  })).catch(err => console.log(err));
+  return api.get(url).then((res) => {
+    let isCompletelyLoaded = false;
+    if (res.data.details.length !== 10) {
+      isCompletelyLoaded = true;
+    }
+    const skip = res.data.details.length;
+    return {
+      type: actionType.GET_NOTE,
+      notes: res.data.details,
+      isCompletelyLoaded,
+      skip
+    };
+  }).catch(err => console.log(err));
 }
 
 module.exports = {
   addNote,
-  deletenote,
+  deleteNote,
   getNotes
 };

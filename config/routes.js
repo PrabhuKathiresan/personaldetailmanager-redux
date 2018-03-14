@@ -55,7 +55,13 @@ module.exports.routes = {
   'post /api/update/note': 'notesController.updateDocument',
   'get /api/delete/note': 'notesController.deleteDocument',
   'post /api/post/file/upload': 'fileController.saveFile',
-  'get /file/:fileid': 'fileController.getFile'
+  'get /file/:fileid': 'fileController.getFile',
+  'get /api/get/todos': 'todoController.getDocuments',
+  'get /api/get/todo': 'todoController.getDocument',
+  'post /api/post/todo': 'todoController.addDocument',
+  'get /api/delete/todo': 'todoController.deleteDocument',
+  'post /api/update/todo': 'todoController.updateDocument'
+  
 
   /***************************************************************************
   *                                                                          *

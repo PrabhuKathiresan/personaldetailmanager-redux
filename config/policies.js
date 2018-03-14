@@ -38,6 +38,10 @@ module.exports.policies = {
 
   notesController : {
     '*': ['isAuthenticated']
+  },
+
+  todoController : {
+    '*': ['isAuthenticated']
   }
 
   /***************************************************************************

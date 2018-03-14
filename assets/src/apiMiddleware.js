@@ -1,6 +1,9 @@
 import axios from 'axios';
 import NoteActions from './actions/Notes';
+import PasswordActions from './actions/Passwords';
+import AlarmActions from './actions/Alarms';
 
+import url from './constants/api-url';
 import actionTypes from './constants/action-types';
 
 const apiMiddleware = store => next => (action) => {
@@ -8,28 +11,45 @@ const apiMiddleware = store => next => (action) => {
   next(action);
   switch (action.type) {
     // In case we receive an action to send an API request
-    case actionTypes.INIT_NOTE:
-      // Dispatch GET_MOVIE_DATA_LOADING to update loading state
-      // store.dispatch({ type: 'GET_MOVIE_DATA_LOADING' });
-      // Make API call and dispatch appropriate actions when done
-      // fetch(`${API}/movies.json`)
-      //   .then(response => response.json())
-      //   .then(data => next({
-      //     type: 'GET_MOVIE_DATA_RECEIVED',
-      //     data
-      //   }))
-      //   .catch(error => next({
-      //     type: 'GET_MOVIE_DATA_ERROR',
-      //     error
-      //   }));
-      NoteActions.getNotes('/api/get/notes?limit=10&skip=0').then((response) => {
+    case actionTypes.API_GET_NOTE:
+      NoteActions.getNotes(`${url.get.notes}?limit=${action.limit}&skip=${action.skip}`).then((response) => {
+        next(response);
+      }).catch(err => console.log(err));
+      break;
+    case actionTypes.API_POST_NOTE:
+      NoteActions.addNote(`${url.post.notes}`, action.note).then((response) => {
         next({
-          type: actionTypes.GET_NOTE,
-          notes: response.notes
+          type: response.type,
+          note: response.note
         });
       }).catch(err => console.log(err));
       break;
-    // Do nothing if the action does not interest us
+    case actionTypes.API_GET_PASSWORD:
+      PasswordActions.getPasswords(`${url.get.passwords}?limit=${action.limit}&skip=${action.skip}`).then((response) => {
+        next(response);
+      }).catch(err => console.log(err));
+      break;
+    case actionTypes.API_POST_PASSWORD:
+      NoteActions.addPassword(`${url.post.passwords}`, action.password).then((response) => {
+        next({
+          type: response.type,
+          password: response.password
+        });
+      }).catch(err => console.log(err));
+      break;
+    case actionTypes.API_GET_ALARM:
+      AlarmActions.getAlarms(`${url.get.alarms}?limit=${action.limit}&skip=${action.skip}`).then((response) => {
+        next(response);
+      }).catch(err => console.log(err));
+      break;
+    case actionTypes.API_POST_ALARM:
+      AlarmActions.addAlarm(`${url.post.alarms}`, action.alarm).then((response) => {
+        next({
+          type: response.type,
+          alarm: response.alarm
+        });
+      }).catch(err => console.log(err));
+      break;
     default:
       break;
   }

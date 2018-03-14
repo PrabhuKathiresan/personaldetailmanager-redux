@@ -1,8 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import $ from 'jquery';
+import { Redirect, NavLink, Route } from 'react-router-dom';
 import NotesContainer from '../containers/Notes';
-import store from '../store';
+import TodosContainer from '../containers/Todos';
+import PasswordsContainer from '../containers/Passwords';
+import AlarmsContainer from '../containers/Alarms';
 import actionTypes from '../constants/action-types';
 
 class Container extends React.Component {
@@ -11,7 +14,8 @@ class Container extends React.Component {
     this.state = {
       containerClass: 'container container-fluid',
       headerStyle: 'mdl-layout__header fixed',
-      redirectToLogin: false
+      redirectToLogin: false,
+      appname: props.match.params.appname || 'notes'
     };
   }
 
@@ -31,7 +35,6 @@ class Container extends React.Component {
 
   componentWillMount() {
     console.log(this);
-    store.dispatch({ type: actionTypes.INIT_NOTE });
   }
 
   componentDidMount() {
@@ -52,13 +55,22 @@ class Container extends React.Component {
     };
   }
 
+  onRouteChange(event, key) {
+    event.preventDefault();
+    if (this.props.location.pathname.indexOf(key) === -1) {
+      this.props.history.push(key);
+      this.setState({
+        appname: key
+      });
+    }
+  }
+
   render() {
     const { redirectToLogin } = this.state;
 
     if (redirectToLogin) {
       return <Redirect to="/login" />;
     }
-
     return (
       <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <header className={this.state.headerStyle}>
@@ -70,25 +82,20 @@ class Container extends React.Component {
             </nav>
           </div>
           <div className="mdl-layout__tab-bar mdl-js-ripple-effect">
-            <a href="#fixed-tab-1" className="mdl-layout__tab is-active">Notes Manager</a>
-            <a href="#fixed-tab-2" className="mdl-layout__tab">Todo Manager</a>
-            <a href="#fixed-tab-3" className="mdl-layout__tab">Alarm Manager</a>
+            <NavLink to="/app/notes" onClick={(event) => { this.onRouteChange(event, 'notes'); }} className="mdl-custom-tab--link" activeClassName="is-active">Notes Manager</NavLink>
+            <NavLink to="/app/todos" onClick={(event) => { this.onRouteChange(event, 'todos'); }} className="mdl-custom-tab--link" activeClassName="is-active">Todo Manager</NavLink>
+            <NavLink to="/app/alarms" onClick={(event) => { this.onRouteChange(event, 'alarms'); }} className="mdl-custom-tab--link" activeClassName="is-active">Alarm Manager</NavLink>
+            <NavLink to="/app/passwords" onClick={(event) => { this.onRouteChange(event, 'passwords'); }} className="mdl-custom-tab--link" activeClassName="is-active">Password Manager</NavLink>
           </div>
         </header>
-        {/* <div className="mdl-layout__drawer">
-          <span className="mdl-layout-title">Title</span>
-        </div> */}
         <main className="mdl-layout__content">
-          <section className="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+          <section className="mdl-layout__tab-panel is-active">
             <div className="page-content">
-              <NotesContainer />
+              <Route path={`${this.props.match.url}/notes`} component={NotesContainer} />
+              <Route path={`${this.props.match.url}/todos`} component={TodosContainer} />
+              <Route path={`${this.props.match.url}/passwords`} component={PasswordsContainer} />
+              <Route path={`${this.props.match.url}/alarms`} component={AlarmsContainer} />
             </div>
-          </section>
-          <section className="mdl-layout__tab-panel" id="fixed-tab-2">
-            <div className="page-content"></div>
-          </section>
-          <section className="mdl-layout__tab-panel" id="fixed-tab-3">
-            <div className="page-content"></div>
           </section>
         </main>
       </div>
