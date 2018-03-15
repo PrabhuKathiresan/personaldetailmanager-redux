@@ -214,11 +214,10 @@ class NewNote extends React.Component {
     if (!newNote.content) {
       return;
     }
-    // this.props.addNotes(newNote);
-    store.dispatch({
-      type: actionTypes.API_POST_NOTE,
-      note: newNote
-    });
+    this.props.addNotes(newNote);
+    if (this.props.closeDialog) {
+      this.props.closeDialog();
+    }
     this.clearNewNote();
   }
 

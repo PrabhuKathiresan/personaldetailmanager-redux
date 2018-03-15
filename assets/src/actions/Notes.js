@@ -2,13 +2,17 @@ import api from '../request/api';
 import actionType from '../constants/action-types';
 
 function addNote(url, note) {
-  return api.post(url, note).then((res) => {
-    console.log(res);
-    return {
-      type: actionType.ADD_NOTE,
-      note: res.data.details
-    };
-  }).catch(err => console.log(err));
+  return api.post(url, note).then(res => ({
+    type: actionType.ADD_NOTE,
+    note: res.data.details
+  })).catch(err => console.log(err));
+}
+
+function updateNote(url, note) {
+  return api.post(url, note).then(res => ({
+    type: actionType.UPDATE_NOTE,
+    note: res.data.details
+  })).catch(err => console.log(err));
 }
 
 function deleteNote(url) {
@@ -40,5 +44,6 @@ function getNotes(url) {
 module.exports = {
   addNote,
   deleteNote,
-  getNotes
+  getNotes,
+  updateNote
 };

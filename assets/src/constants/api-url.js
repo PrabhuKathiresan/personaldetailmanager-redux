@@ -10,5 +10,11 @@ module.exports = {
     alarms: '/api/post/alarm',
     passwords: '/api/post/password',
     todos: '/api/post/todo'
+  },
+  update: {
+    notes: '/api/update/note',
+    alarms: '/api/update/alarm',
+    passwords: '/api/update/password',
+    todos: '/api/update/todo'
   }
 };

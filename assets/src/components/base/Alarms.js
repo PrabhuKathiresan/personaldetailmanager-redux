@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 class Alarms extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class Alarms extends React.Component {
     };
   }
   componentWillMount() {
+    $('main.mdl-layout__content').scrollTop(0);
     if (!this.props.alarms.initiallyLoaded) {
       this.props.onLoad(this.props.alarms.limit, this.props.alarms.skip);
     }

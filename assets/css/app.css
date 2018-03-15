@@ -18,8 +18,8 @@ div.app{
     right: 0;
     overflow: hidden;
     z-index: 1;
-    background: #e8e8e8;
-    color: #555555;
+    background: #f3f3f3;
+    color: #444444;
 }
 
 div.wrapper {
@@ -33,7 +33,6 @@ div.wrapper {
 
 main.mdl-layout__content {
     padding: 20px 0;
-    background: #f1f1f1;
 }
 
 div.logo{
@@ -735,56 +734,124 @@ small.xs {
     width: 256px;
     height: 256px;
     background: #3E4EB8;
-  }
-  .card-event > .mdl-card__actions {
+}
+
+.card-event > .mdl-card__actions {
     border-color: rgba(255, 255, 255, 0.2);
-  }
-  .card-event > .mdl-card__title {
+}
+.card-event > .mdl-card__title {
     align-items: flex-start;
-  }
-  .card-event > .mdl-card__title > h4 {
+}
+.card-event > .mdl-card__title > h4 {
     margin-top: 0;
-  }
-  .card-event > .mdl-card__actions {
+}
+.card-event > .mdl-card__actions {
     display: flex;
     box-sizing:border-box;
     align-items: center;
-  }
-  .card-event > .mdl-card__actions > .material-icons {
+}
+.card-event > .mdl-card__actions > .material-icons {
     padding-right: 10px;
-  }
-  .card-event > .mdl-card__title,
-  .card-event > .mdl-card__actions,
-  .card-event > .mdl-card__actions > .mdl-button {
+}
+.card-event > .mdl-card__title,
+.card-event > .mdl-card__actions,
+.card-event > .mdl-card__actions > .mdl-button {
     color: #fff;
-  }
+}
 
-  .flex-column {
-      flex-direction: column;
-  }
+.flex-column {
+    flex-direction: column;
+}
 
-  .mdl-card__title div {
-      margin: 10px 0;
-  }
+.mdl-card__title div {
+    margin: 10px 0;
+}
 
-  .loadMore {
+.loadMore {
     text-align: center;
     margin: 10px;
-  }
+}
 
-  .mdl-spinner--small {
+.mdl-spinner--small {
     width: 20px!important;
     height: 20px!important;
-  }
+}
 
-  .mdl-spinner--small .mdl-spinner__circle {
+.mdl-spinner--small .mdl-spinner__circle {
       border-width: 1px!important;
-  }
+}
 
-  .ReactTable .-pagination .-btn {
+.ReactTable .-pagination .-btn {
       height: auto!important;
   }
 
-  :focus {
+:focus {
       outline: none!important;
   }
+
+.todo-container {
+    width: 480px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.todo-contentEditable {
+    position: relative;
+    height: 56px;
+    max-height: 56px;
+    overflow: hidden;
+    line-height: 56px;
+    padding: 0 10px 0 15px;
+    box-shadow: 1px 1px 5px 0px #9e9e9e;
+    background: #FFFFFF;
+}
+
+.todo-contentEditable form {
+      margin-bottom: 0!important;
+}
+
+#todo-contentEditable {
+      position: relative;
+      z-index: 1;
+}
+
+.customPlaceHolder {
+    position: absolute;
+    color: #9e9e9e;
+    z-index: 0;
+}
+
+.todo-list-control {
+    background: #FFFFFF;
+    margin-top: 0;
+    box-shadow: 1px 0px 5px 1px #4444;
+}
+
+.floating-input {
+    position: fixed;
+    width: 480px;
+    z-index: 5;
+}
+
+.list-action {
+    padding: 0 5px;
+    cursor: pointer;
+    color: rgba(153, 153, 153, 0.6);
+}
+
+.list-action:hover {
+    color: #444;
+}
+
+.list-action i.material-icons {
+    font-size: 20px;
+}
+
+.mdl-card .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+}

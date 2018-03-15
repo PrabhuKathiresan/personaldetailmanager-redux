@@ -9,8 +9,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onLoad: () => {
-    dispatch({ type: API_GET_ALARM });
+  onLoad: (limit, skip) => {
+    dispatch({ type: API_GET_ALARM, limit, skip });
   },
   onClick: () => {
     console.log(ownProps);

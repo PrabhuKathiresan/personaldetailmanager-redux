@@ -8,7 +8,8 @@ const initialState = {
   isCompletelyLoaded: false,
   initiallyLoaded: false
 };
-
+let index;
+let tempObj;
 function notes(state = initialState, action) {
   switch (action.type) {
     case ActionType.ADD_NOTE:
@@ -16,6 +17,13 @@ function notes(state = initialState, action) {
         Object.assign({}, action.note),
         ...state
       ];
+    case ActionType.UPDATE_NOTE:
+      index = _.findIndex(state.data, { _id: action.note._id });
+      tempObj = _.concat([], state.data);
+      tempObj[index] = action.note;
+      return Object.assign({}, state, {
+        data: _.concat([], tempObj)
+      });
     case ActionType.DELETE_NOTE:
       return _.remove(...state, {
         _id: action.id

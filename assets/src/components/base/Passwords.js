@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTable from 'react-table';
+import $ from 'jquery';
 import 'react-table/react-table.css';
 
 class Passwords extends React.Component {
@@ -23,6 +24,7 @@ class Passwords extends React.Component {
     };
   }
   componentWillMount() {
+    $('main.mdl-layout__content').scrollTop(0);
     if (!this.props.passwords.initiallyLoaded) {
       this.props.onLoad(this.props.passwords.limit, this.props.passwords.skip);
     }

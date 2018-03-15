@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { API_GET_TODO } from '../constants/action-types';
+import { API_GET_TODO, API_POST_TODO, API_UPDATE_TODO } from '../constants/action-types';
 import TodoActions from '../actions/Todos';
 import Todos from '../components/base/Todos';
 
@@ -9,11 +9,14 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onLoad: () => {
-    dispatch({ type: API_GET_TODO });
+  onLoad: (limit, skip) => {
+    dispatch({ type: API_GET_TODO, limit, skip });
   },
-  onClick: () => {
-    console.log(ownProps);
+  addTodo: (todo) => {
+    dispatch({ type: API_POST_TODO, todo: { content: todo, completed: false, createdAt: new Date() } });
+  },
+  updateTodo: (todo) => {
+    dispatch({ type: API_UPDATE_TODO, todo });
   }
 });
 
