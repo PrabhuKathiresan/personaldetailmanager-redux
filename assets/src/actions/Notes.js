@@ -15,14 +15,11 @@ function updateNote(url, note) {
   })).catch(err => console.log(err));
 }
 
-function deleteNote(url) {
-  return api.get(url).then((res) => {
-    console.log(res);
-    return {
-      type: actionType.DELETE_NOTE,
-      id: res.details
-    };
-  }).catch(err => console.log(err));
+function deleteNote(url, id) {
+  return api.get(url).then(res => ({
+    type: actionType.DELETE_NOTE,
+    id
+  })).catch(err => console.log(err));
 }
 
 function getNotes(url) {

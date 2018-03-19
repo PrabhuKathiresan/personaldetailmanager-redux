@@ -13,10 +13,12 @@ let tempObj;
 function notes(state = initialState, action) {
   switch (action.type) {
     case ActionType.ADD_NOTE:
-      return [
-        Object.assign({}, action.note),
-        ...state
-      ];
+      return Object.assign({}, state, {
+        data: [
+          Object.assign({}, action.note),
+          ...state.data
+        ]
+      });
     case ActionType.UPDATE_NOTE:
       index = _.findIndex(state.data, { _id: action.note._id });
       tempObj = _.concat([], state.data);
@@ -25,9 +27,13 @@ function notes(state = initialState, action) {
         data: _.concat([], tempObj)
       });
     case ActionType.DELETE_NOTE:
-      return _.remove(...state, {
+      _.remove(state.data, {
         _id: action.id
       });
+      tempObj = Object.assign({}, state, {
+        data: state.data
+      });
+      return tempObj;
     case ActionType.GET_NOTE:
       return Object.assign({}, state, {
         data: _.concat(...state.data, action.notes)

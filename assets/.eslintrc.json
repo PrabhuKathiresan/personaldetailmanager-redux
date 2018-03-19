@@ -21,6 +21,7 @@
         "no-spaced-func": "off",
         "eol-last": "off",
         "comma-dangle": "off",
+        "no-underscore-dangle": [2, { "allow": ["_id"] }],
         "max-len": "off",
         "func-names": "off",
         "strict": 0,

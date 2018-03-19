@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { API_GET_NOTE, API_UPDATE_NOTE, API_POST_NOTE } from '../constants/action-types';
+import { API_GET_NOTE, API_UPDATE_NOTE, API_POST_NOTE, API_DELETE_NOTE } from '../constants/action-types';
 import NotesActions from '../actions/Notes';
 import Notes from '../components/base/Notes';
 
@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   update: (note) => {
     dispatch({ type: API_UPDATE_NOTE, note });
+  },
+  delete: (note) => {
+    dispatch({ type: API_DELETE_NOTE, note });
   }
 });
 

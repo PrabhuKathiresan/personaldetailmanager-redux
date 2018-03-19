@@ -14,9 +14,9 @@ class NewTodo extends React.Component {
     event.preventDefault();
     const innerHTML = event.target.innerHTML;
     if (innerHTML !== '') {
-      document.getElementById('todo-custom-placeholder').style.display = 'none';
+      document.getElementById(`todo-custom-placeholder-${this.props.id}`).style.display = 'none';
     } else {
-      document.getElementById('todo-custom-placeholder').style.display = 'block';
+      document.getElementById(`todo-custom-placeholder-${this.props.id}`).style.display = 'block';
     }
     this.setState({
       newTodo: innerHTML
@@ -27,7 +27,7 @@ class NewTodo extends React.Component {
       this.props.addTodo(this.state.newTodo);
     }
     document.getElementById('todo-contentEditable').innerHTML = '';
-    document.getElementById('todo-custom-placeholder').style.display = 'block';
+    document.getElementById(`todo-custom-placeholder-${this.props.id}`).style.display = 'block';
   }
   handleKeyPress(e) {
     if (e.key === 'Enter') {
@@ -38,7 +38,7 @@ class NewTodo extends React.Component {
   render() {
     return (
       <div id={this.props.id} className={this.state.todoContentEditable}>
-        <span id="todo-custom-placeholder" className={this.state.customPlaceHolder}>Add new todo</span>
+        <span id={`todo-custom-placeholder-${this.props.id}`} className={this.state.customPlaceHolder}>Add new todo</span>
         <div id="todo-contentEditable" onKeyPress={(event => this.handleKeyPress(event))} contentEditable="true" suppressContentEditableWarning={true} onInput={(event) => { this.handleInput(event); }}>
         </div>
       </div>

@@ -27,6 +27,11 @@ const apiMiddleware = store => next => (action) => {
         next(response);
       }).catch(err => console.log(err));
       break;
+    case actionTypes.API_DELETE_NOTE:
+      NoteActions.deleteNote(`${url.delete.notes}?_id=${action.note._id}`, action.note._id).then((response) => {
+        next(response);
+      }).catch(err => console.log(err));
+      break;
     case actionTypes.API_GET_PASSWORD:
       PasswordActions.getPasswords(`${url.get.passwords}?limit=${action.limit}&skip=${action.skip}`).then((response) => {
         next(response);

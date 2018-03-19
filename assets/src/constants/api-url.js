@@ -16,5 +16,11 @@ module.exports = {
     alarms: '/api/update/alarm',
     passwords: '/api/update/password',
     todos: '/api/update/todo'
+  },
+  delete: {
+    notes: '/api/delete/note',
+    alarms: '/api/delete/alarm',
+    passwords: '/api/delete/password',
+    todos: '/api/delete/todo'
   }
 };
