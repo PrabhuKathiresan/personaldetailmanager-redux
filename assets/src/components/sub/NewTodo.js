@@ -39,8 +39,7 @@ class NewTodo extends React.Component {
     return (
       <div id={this.props.id} className={this.state.todoContentEditable}>
         <span id={`todo-custom-placeholder-${this.props.id}`} className={this.state.customPlaceHolder}>Add new todo</span>
-        <div id="todo-contentEditable" onKeyPress={(event => this.handleKeyPress(event))} contentEditable="true" suppressContentEditableWarning={true} onInput={(event) => { this.handleInput(event); }}>
-        </div>
+        <div id="todo-contentEditable" onKeyPress={(event => this.handleKeyPress(event))} contentEditable="true" suppressContentEditableWarning={true} onInput={(event) => { this.handleInput(event); }}></div>
       </div>
     );
   }

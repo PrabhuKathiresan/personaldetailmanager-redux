@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import NewTodo from '../sub/NewTodo';
 import TodoList from '../sub/TodoList';
+import NodatafoundSVG from '../../svg/Nodatafound';
 
 class Todos extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class Todos extends React.Component {
       $('main.mdl-layout__content').on('scroll', (e) => {
         const elem = $(e.currentTarget);
         const scrollTop = elem[0].scrollTop;
-        if (scrollTop > 90) {
+        if (scrollTop > 35) {
           $('#floatingElement').show();
         } else {
           $('#floatingElement').hide();
@@ -45,13 +46,15 @@ class Todos extends React.Component {
   }
 
   render() {
+    const todoList = <TodoList todos={this.props.todos.data} updateTodo={this.props.updateTodo} />;
+    const nodatafound = <div className="text-center"><NodatafoundSVG /><div className="title">No data found</div></div>;
     return (
       <div className={this.state.todoClass}>
         <div id="floatingElement" className={this.state.floatingTodo}>
           <NewTodo id="float" addTodo={this.props.addTodo} />
         </div>
         <NewTodo id="normal" addTodo={this.props.addTodo} />
-        <TodoList todos={this.props.todos.data} updateTodo={this.props.updateTodo} />
+        { this.props.todos.data.length > 0 ? todoList : nodatafound }
       </div>
     );
   }

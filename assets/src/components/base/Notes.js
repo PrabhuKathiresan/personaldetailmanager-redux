@@ -5,6 +5,8 @@ import _ from 'lodash';
 import $ from 'jquery';
 
 import NewNote from '../sub/NewNote';
+import NodatafoundSVG from '../../svg/Nodatafound';
+import Loader from '../helper/Loader';
 
 
 class Notes extends React.Component {
@@ -14,6 +16,7 @@ class Notes extends React.Component {
       notes: [],
       hasMore: false,
       masonryContainerInstance: null,
+      loaderClass: 'mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active',
       pack: true,
       note: {},
       title: {
@@ -34,10 +37,10 @@ class Notes extends React.Component {
     }
     setTimeout(() => {
       const dialog = document.querySelector('dialog');
-      if (!dialog.showModal) {
+      if (dialog && !dialog.showModal) {
         window.dialogPolyfill.registerDialog(dialog);
       }
-    }, 10);
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -47,6 +50,7 @@ class Notes extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.state);
     window.componentHandler.upgradeAllRegistered();
     $.fn.isFullyInViewport = function () {
       const elementTop = $(this).offset().top;
@@ -57,18 +61,16 @@ class Notes extends React.Component {
 
       return elementTop >= viewportTop && elementBottom <= viewportBottom;
     };
-
     $(() => {
-      let processing = false;
       const mainContent = $('main.mdl-layout__content');
-      mainContent.bind('scroll', (e) => {
-        if ($('.loadMore').isFullyInViewport()) {
-          if (!this.props.notes.isCompletelyLoaded && !processing) {
-            processing = true;
-            this.props.onLoad(this.props.notes.limit, this.props.notes.skip);
-          }
-        } else {
-          processing = false;
+      mainContent.bind('scroll', () => {
+        const divHeight = mainContent.outerHeight();
+        const scrollHeight = mainContent.prop('scrollHeight');
+        const windowScrTp = mainContent.scrollTop();
+        const bottom = windowScrTp > (scrollHeight - divHeight - 50);
+        if (bottom && !this.props.notes.isFetching && !this.props.notes.isCompletelyLoaded) {
+          this.props.processing(true);
+          this.props.onLoad(this.props.notes.limit, this.props.notes.skip);
         }
       });
     });
@@ -124,6 +126,7 @@ class Notes extends React.Component {
     });
     const dialog = document.querySelector('dialog.update');
     const showModalButton = document.querySelector('.show-modal');
+    window.dialogPolyfill.registerDialog(dialog);
     dialog.showModal();
     dialog.querySelector('.close').addEventListener('click', () => {
       dialog.close();
@@ -146,6 +149,7 @@ class Notes extends React.Component {
       title
     });
     const dialog = document.querySelector('dialog.delete');
+    window.dialogPolyfill.registerDialog(dialog);
     dialog.showModal();
     dialog.querySelector('dialog.delete .close').addEventListener('click', () => {
       dialog.close();
@@ -157,46 +161,61 @@ class Notes extends React.Component {
     });
   }
 
+  selectNote(event, note) {
+    event.preventDefault();
+    this.props.selectNote(note, !note.selected);
+  }
+
+  deselectNotes() {
+    this.props.deselectNotes();
+  }
+
   render() {
     const notes = this.props.notes.data.map((note, index) => (
-      <div className="mdl-card mdl-shadow--2dp" key={index} style={{ backgroundColor: note.theme ? note.theme.color : '#FFFFFF' }}>
-        <div className="mdl-card__title extra-padding-right">
+      <div className={`mdl-card mdl-shadow--4dp note-card ${note.selected ? 'inset-box-shadow' : ''}`} key={index} style={{ backgroundColor: note.theme ? note.theme.color : '#FFFFFF' }}>
+        <div className="mdl-card__title block__title">
           <h2 className="mdl-card__title-text">{note.title}</h2>
         </div>
         <div className="mask" onClick={event => this.editNote(event, note)}></div>
         <div className="mdl-card__supporting-text" dangerouslySetInnerHTML={{ __html: note.content }}></div>
-        <span className="mdl-card__custom-action displayNone" onClick={(event => this.confirmNoteDeletion(event, note))}><i className="material-icons">delete</i></span>
+        <div className="mdl-card____action">
+          <div className="mdl-card____action__item" onClick={(event => this.selectNote(event, note))}><i className="material-icons">done</i></div>
+          <div className="mdl-card____action__item" onClick={(event => this.confirmNoteDeletion(event, note))}><i className="material-icons">delete</i></div>
+        </div>
       </div>
     ));
+
+    const nodatafound = <div className="text-center">
+      <NodatafoundSVG />
+      <div className="title">No data found</div>
+    </div>;
+
+    const displayNotes = <MasonryInfiniteScroller onLoad={this.updateImage()} ref={this.setContainerRef} className="place-at-center" pack={this.state.pack} hasMore={this.state.hasMore} loadMore={() => console.log('No use')}>
+        {notes}
+      </MasonryInfiniteScroller>;
+
+    const selectedDocument = <div className={`selected-notes ${this.props.notes.selectedDocumentCount > 0 ? 'show' : ''}`}>
+      <div className="mdl-button mdl-js-button mdl-button--icon" onClick={() => this.deselectNotes()}>
+        <i className="material-icons">arrow_back</i>
+      </div>
+      <span className="informations">{this.props.notes.selectedDocumentCount} selected</span>
+
+      <div className="selected-notes__actions">
+        <div className="mdl-button mdl-js-button mdl-button--icon" onClick={() => this.deleteSelectNotes()}>
+          <i className="material-icons">delete</i>
+        </div>
+        <div className="mdl-button mdl-js-button mdl-button--icon" onClick={() => this.deleteSelectNotes()}>
+          <i className="material-icons">archive</i>
+        </div>
+      </div>
+    </div>;
 
     return (
       <div>
         <NewNote addNotes={this.props.add} type="add" />
-        <div style={{ display: this.props.notes.data.length > 0 ? 'block' : 'none' }}>
-          <MasonryInfiniteScroller onLoad={this.updateImage()} ref={this.setContainerRef} className="place-at-center" pack={this.state.pack} hasMore={this.state.hasMore} loadMore={() => console.log('load more')}>
-            {notes}
-          </MasonryInfiniteScroller>
-        </div>
-        <div style={{ display: this.props.notes.data.length === 0 ? 'block' : 'none' }}>
-          <div>No data found</div>
-          <svg height="225" width="225">
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_1" y2="200" x2="50" y1="50" x1="50" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_2" y2="200" x2="200" y1="50" x1="200" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_3" y2="200" x2="200" y1="200" x1="50" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_4" y2="50" x2="200" y1="50" x1="50" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_5" y2="25" x2="175" y1="25" x1="25" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_6" y2="175.5" x2="25.5" y1="25.5" x1="25" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_7" y2="175" x2="175" y1="175" x1="25" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_8" y2="175" x2="173.5" y1="25" x1="173.5" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_9" y2="50" x2="50" y1="25" x1="25" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_10" y2="50" x2="200" y1="25" x1="175" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_11" y2="200" x2="200" y1="175" x1="175" strokeWidth="3" fill="none"/>
-          <line stroke="#444" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_12" y2="200" x2="50" y1="175" x1="25" strokeWidth="3" fill="none"/>
-          </svg>
-        </div>
-        <div className="loadMore" style={{ display: this.props.notes.isCompletelyLoaded ? 'none' : 'block' }}>
-          <div className="mdl-spinner mdl-spinner--small mdl-spinner--single-color mdl-js-spinner is-active"></div>
-        </div>
+        { this.props.notes.data.length > 0 ? displayNotes : nodatafound }
+        <div className="text-center" style={{ display: this.props.notes.isFetching ? 'block' : 'none', margin: '20px auto' }}><div className={this.state.loaderClass}></div></div>
+        {selectedDocument}
         <dialog className="mdl-dialog custom-dialog update">
           <NewNote addNotes={this.props.update} closeDialog={this.closeDialog} showCloseButton={true} type="update" note={this.state.note} />
         </dialog>

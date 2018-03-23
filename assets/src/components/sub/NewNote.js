@@ -125,20 +125,74 @@ class NewNote extends React.Component {
     const files = event.target.files;
     const contentid = `content-${this.props.type}`;
     const elementId = `placeholder-${contentid}`;
-    const imageIDS = [];
+    const noteComponent = this;
     _.forEach(files, (file, i) => {
       let imageid = new Date().getTime();
       imageid = `${imageid}-${i}`;
       const contentElement = document.getElementById(contentid);
       let innerHTML = contentElement.innerHTML;
-      const img = `<div class="img-container" id="${imageid}-parent"><div class="img-loader" id="${imageid}-div"></div><div class="img-boxshadow"><img id="${imageid}" class="responsive small" src="" /></div><br></br></div>`;
+      const img = `<div class="margin" id="${imageid}-parent"></div>`;
       innerHTML = `${innerHTML}${img}`;
       contentElement.innerHTML = innerHTML;
-      document.getElementById(elementId).style.visibility = 'hidden';
       contentElement.scrollTop = contentElement.scrollHeight - contentElement.clientHeight;
-      imageIDS.push(imageid);
+      document.getElementById(elementId).style.visibility = 'hidden';
+      const reader = new FileReader();
+      reader.onload = async function () {
+        const image = document.createElement('img');
+        image.src = reader.result;
+        image.className = 'responsive no-margin';
+        document.getElementById(`${imageid}-parent`).appendChild(image);
+        await noteComponent.uploadFile(file, imageid, 'images');
+      };
+      reader.readAsDataURL(file);
     });
-    this.initUpload(files, imageIDS, 'images');
+  }
+
+  uploadFile(file, fileid, filetype) {
+    return new Promise((resolve, reject) => {
+      const contentid = `content-${this.props.type}`;
+      const formData = new FormData();
+      formData.append(filetype, file);
+      const request = new XMLHttpRequest();
+      request.onreadystatechange = () => {
+        if (request.readyState === 4) {
+          try {
+            const response = JSON.parse(request.responseText);
+            if (response.success) {
+              const fileDetail = response.details[0];
+              const elem = document.getElementById(`${fileid}-parent`);
+              elem.parentNode.removeChild(elem);
+              const url = `/file/${fileDetail._id}`;
+              let innerhtml = document.getElementById(contentid).innerHTML;
+              let dynamicElement = '';
+              if (filetype && filetype === 'images') {
+                dynamicElement = `<img class="responsive" src=${url} />`;
+              } else if (filetype && filetype === 'videos') {
+                dynamicElement = `<video class="responsive" src=${url}></video>`;
+              }
+              innerhtml = `${innerhtml}<div class="margin">${dynamicElement}</div>`;
+              document.getElementById(contentid).innerHTML = innerhtml;
+              const newNote = Object.assign({}, this.state.newNote);
+              newNote.content = innerhtml;
+              this.setState({
+                newNote
+              });
+              resolve(true);
+            } else {
+              reject(new Error('Failed'));
+            }
+          } catch (e) {
+            console.log(e);
+            reject(e);
+          }
+        }
+      };
+      request.upload.addEventListener('progress', (e) => {
+        const progress = `${Math.round((e.loaded * 100) / e.total)}%`;
+      }, false);
+      request.open('POST', this.state.uploadUrl, true);
+      request.send(formData);
+    });
   }
 
   handleVideoFileUpload(event) {
@@ -270,13 +324,11 @@ class NewNote extends React.Component {
             <div className="place-holder" id={`placeholder-title-${this.props.type}`}>Title</div>
             <div dangerouslySetInnerHTML={{ __html: note.title ? note.title : undefined }} className="content-editable-title content-editable-area" id={`title-${this.props.type}`} contentEditable="true" suppressContentEditableWarning={true} onInput={(event => this.updateChange(event, 'title'))}></div>
           </div>
-          <hr className="no-margin"></hr>
           <div className="content-editable-container content-container">
             <div className="place-holder non-title" id={`placeholder-content-${this.props.type}`}>Add a new note...</div>
             <div dangerouslySetInnerHTML={{ __html: note.content ? note.content : undefined }} className="content content-editable-area" id={`content-${this.props.type}`} contentEditable="true" suppressContentEditableWarning={true} onInput={(event => this.updateChange(event, 'content'))}></div>
           </div>
         </div>
-        <hr className="no-margin"></hr>
         <div className="content-editable-actions">
           <div className="left">
             <button id={`color-palette-${this.props.type}`} className="mdl-button mdl-js-button mdl-button--icon">

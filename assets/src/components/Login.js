@@ -24,13 +24,18 @@ class Login extends React.Component {
       displayAuthenticationError: false,
       authenticationError: '',
       loginSuccess: false,
-      isUserLoggedIn: 'inProgress'
+      isUserLoggedIn: 'inProgress',
+      mdlTimeOut: 500
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillMount() {
+    this.checkIfUserLoggedIn();
+  }
+
+  checkIfUserLoggedIn() {
     axios.get('/api/userinfo')
       .then((res) => {
         const data = res.data;
@@ -52,8 +57,9 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state);
-    window.componentHandler.upgradeAllRegistered();
+    setTimeout(() => {
+      window.componentHandler.upgradeAllRegistered();
+    }, this.state.mdlTimeOut * 2);
   }
 
   handleUserInput(e) {
