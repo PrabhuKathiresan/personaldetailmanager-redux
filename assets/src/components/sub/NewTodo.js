@@ -13,7 +13,8 @@ class NewTodo extends React.Component {
   handleInput(event) {
     event.preventDefault();
     const innerHTML = event.target.innerHTML;
-    if (innerHTML !== '') {
+    const innerText = event.target.innerText;
+    if (innerText !== '') {
       document.getElementById(`todo-custom-placeholder-${this.props.id}`).style.display = 'none';
     } else {
       document.getElementById(`todo-custom-placeholder-${this.props.id}`).style.display = 'block';

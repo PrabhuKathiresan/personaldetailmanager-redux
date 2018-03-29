@@ -46,7 +46,7 @@ class Todos extends React.Component {
   }
 
   render() {
-    const todoList = <TodoList todos={this.props.todos.data} updateTodo={this.props.updateTodo} />;
+    const todoList = <TodoList todos={this.props.todos.data} updateTodo={this.props.updateTodo} deleteTodo={this.props.deleteTodo} />;
     const nodatafound = <div className="text-center"><NodatafoundSVG /><div className="title">No data found</div></div>;
     return (
       <div className={this.state.todoClass}>

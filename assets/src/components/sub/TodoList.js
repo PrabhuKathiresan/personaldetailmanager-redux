@@ -23,6 +23,10 @@ class TodoList extends React.Component {
     this.props.updateTodo(todo);
   }
 
+  deleteTodo(event, t) {
+    this.props.deleteTodo(t);
+  }
+
   render() {
     const list = this.props.todos.map((todo, index) => (
       <li className="mdl-list__item" key={index}>
@@ -34,7 +38,7 @@ class TodoList extends React.Component {
             <input type="checkbox" onChange={(event => this.updateTodo(event, todo))} id={`list-checkbox-${index}`} className="mdl-checkbox__input" defaultChecked={todo.completed} />
           </label>
         </span>
-        <span className="list-action">
+        <span className="list-action" onClick={(event => this.deleteTodo(event, todo))}>
           <i className="material-icons">delete</i>
         </span>
       </li>

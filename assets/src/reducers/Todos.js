@@ -21,6 +21,13 @@ function todos(state = initialState, action) {
       return Object.assign({}, state, {
         data: _.concat([], state.data)
       });
+    case ActionType.DELETE_TODO:
+      _.remove(state.data, {
+        _id: action.id
+      });
+      return Object.assign({}, state, {
+        data: state.data
+      });
     case ActionType.GET_TODO:
       return Object.assign({}, state, {
         data: _.concat(...state.data, action.todos)

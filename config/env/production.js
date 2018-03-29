@@ -38,7 +38,7 @@ module.exports = {
   mongoconnection: {
     host: "localhost",
     prefix: "mongodb://",
-    port: "3017",
+    port: "27017",
     dbname: "personal",
     admin: {
       username: 'admin@mypersonaldetails.com',

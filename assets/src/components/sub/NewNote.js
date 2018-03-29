@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import $ from 'jquery';
 import store from '../../store';
 import actionTypes from '../../constants/action-types';
 
@@ -61,40 +62,51 @@ class NewNote extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this);
+    const { note } = this.props;
+    if (note) {
+      if (note.title) {
+        document.getElementById(`placeholder-title-${this.props.type}`).style.visibility = 'hidden';
+      }
+      if (note.content) {
+        document.getElementById(`placeholder-content-${this.props.type}`).style.visibility = 'hidden';
+        document.getElementById(`content-${this.props.type}`).classList.add('has-value');
+      }
+      if (note.theme) {
+        document.getElementById(`bg-color-${this.props.type}`).style.backgroundColor = note.theme.color;
+      }
+    }
+    if (this.props.type === 'update') {
+      this.setState({
+        newNote: this.props.note
+      });
+    }
     setTimeout(() => {
       window.componentHandler.upgradeAllRegistered();
     }, 100);
   }
 
-  componentWillReceiveProps() {
-    setTimeout(() => {
-      const { note } = this.props;
-      if (note) {
-        if (note.title) {
-          document.getElementById(`placeholder-title-${this.props.type}`).style.visibility = 'hidden';
-        }
-        if (note.content) {
-          document.getElementById(`placeholder-content-${this.props.type}`).style.visibility = 'hidden';
-          document.getElementById(`content-${this.props.type}`).classList.add('has-value');
-        }
-        if (note.theme) {
-          document.getElementById(`bg-color-${this.props.type}`).style.backgroundColor = note.theme.color;
-        }
-      }
-      if (this.props.type === 'update') {
-        this.setState({
-          newNote: this.props.note
-        });
-      }
-    }, 5);
-  }
-
   updateChange(e, key) {
     const id = e.target.id;
+    const ele = $(e.target);
+    ele.find('br').remove();
     const innerHTML = e.target.innerHTML;
+    const innerText = e.target.innerText.trim();
+    if (key === 'content') {
+      let child = e.target.firstChild;
+      while (child) {
+        if (child.nodeType === 3) { // Text node
+          const divnode = document.createElement('div');
+          divnode.innerHTML = child.nodeValue;
+          e.target.appendChild(divnode);
+          e.target.removeChild(child);
+          this.setEndOfContenteditable(e.target);
+        }
+        // move to the next child node
+        child = child.nextSibling;
+      }
+    }
     const elementId = `placeholder-${e.target.id}`;
-    if (!innerHTML || innerHTML === '') {
+    if (!innerText || innerText === '') {
       document.getElementById(elementId).style.visibility = 'visible';
       if (id === `content-${this.props.type}`) {
         e.target.classList.remove('has-value');
@@ -109,6 +121,25 @@ class NewNote extends React.Component {
         e.target.classList.add('has-value');
       }
       document.getElementById(elementId).style.visibility = 'hidden';
+    }
+  }
+
+  setEndOfContenteditable(contentEditableElement) {
+    console.log(this);
+    let range;
+    let selection;
+    if (document.createRange) { // Firefox, Chrome, Opera, Safari, IE 9+
+      range = document.createRange();// Create a range (a range is a like the selection but invisible)
+      range.selectNodeContents(contentEditableElement);// Select the entire contents of the element with the range
+      range.collapse(false);// collapse the range to the end point. false means collapse to end rather than the start
+      selection = window.getSelection();// get the selection object (allows you to change selection)
+      selection.removeAllRanges();// remove any selections already made
+      selection.addRange(range);// make the range you have just created the visible selection
+    } else if (document.selection) { // IE 8 and lower
+      range = document.body.createTextRange();// Create a range (a range is a like the selection but invisible)
+      range.moveToElementText(contentEditableElement);// Select the entire contents of the element with the range
+      range.collapse(false);// collapse the range to the end point. false means collapse to end rather than the start
+      range.select();// Select the range (make it the visible selection
     }
   }
 
@@ -163,15 +194,23 @@ class NewNote extends React.Component {
               const elem = document.getElementById(`${fileid}-parent`);
               elem.parentNode.removeChild(elem);
               const url = `/file/${fileDetail._id}`;
-              let innerhtml = document.getElementById(contentid).innerHTML;
-              let dynamicElement = '';
+              // let innerhtml = document.getElementById(contentid).innerHTML;
+              // let dynamicElement = '';
               if (filetype && filetype === 'images') {
-                dynamicElement = `<img class="responsive" src=${url} />`;
+                const image = new Image(200, 150);
+                image.src = url;
+                image.className = 'margin responsive';
+                image.onload = () => {
+                  document.getElementById(contentid).appendChild(image);
+                };
+                // dynamicElement = `<img class="margin responsive" src=${url} />`;
               } else if (filetype && filetype === 'videos') {
-                dynamicElement = `<video class="responsive" src=${url}></video>`;
+                // dynamicElement = `<video class="margin responsive" src=${url}></video>`;
               }
-              innerhtml = `${innerhtml}<div class="margin">${dynamicElement}</div>`;
-              document.getElementById(contentid).innerHTML = innerhtml;
+              // innerhtml = `${innerhtml}<div class="margin">${dynamicElement}</div>`;
+              // innerhtml = `${innerhtml}${dynamicElement}`;
+              // document.getElementById(contentid).innerHTML = innerhtml;
+              const innerhtml = document.getElementById(contentid).innerHTML;
               const newNote = Object.assign({}, this.state.newNote);
               newNote.content = innerhtml;
               this.setState({
@@ -237,11 +276,12 @@ class NewNote extends React.Component {
               let innerHTML = document.getElementById(contentid).innerHTML;
               let dynamicElement = '';
               if (filetype && filetype === 'images') {
-                dynamicElement = `<img class="responsive" src=${url} />`;
+                dynamicElement = `<img class="margin responsive" src=${url} />`;
               } else if (filetype && filetype === 'videos') {
-                dynamicElement = `<video class="responsive" src=${url}></video>`;
+                dynamicElement = `<video class="margin responsive" src=${url}></video>`;
               }
-              innerHTML = `${innerHTML}<div class="margin">${dynamicElement}</div>`;
+              // innerHTML = `${innerHTML}<div class="margin">${dynamicElement}</div>`;
+              innerHTML = `${innerHTML}${dynamicElement}`;
               document.getElementById(contentid).innerHTML = innerHTML;
             });
             const innerHTML = document.getElementById(contentid).innerHTML;
@@ -326,7 +366,7 @@ class NewNote extends React.Component {
           </div>
           <div className="content-editable-container content-container">
             <div className="place-holder non-title" id={`placeholder-content-${this.props.type}`}>Add a new note...</div>
-            <div dangerouslySetInnerHTML={{ __html: note.content ? note.content : undefined }} className="content content-editable-area" id={`content-${this.props.type}`} contentEditable="true" suppressContentEditableWarning={true} onInput={(event => this.updateChange(event, 'content'))}></div>
+            <div dangerouslySetInnerHTML={{ __html: note.content ? note.content : undefined }} className="content content-editable-area" id={`content-${this.props.type}`} contentEditable="true" suppressContentEditableWarning={true} onInput={(event => this.updateChange(event, 'content'))} onBlur={(event => this.updateChange(event, 'content'))}></div>
           </div>
         </div>
         <div className="content-editable-actions">

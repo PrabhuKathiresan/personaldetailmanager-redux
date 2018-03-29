@@ -266,15 +266,6 @@ section.layout-padding{
     float: left;
 }
 
-@media screen and (max-width: 435px) {
-    .align-center {
-        width: 100%;
-    }
-    .custom-dialog {
-        width: 100%;
-    }
-}
-
 .custom-dialog.mdl-dialog {
     width: 400px;
     padding: 0;
@@ -442,10 +433,12 @@ i::selection {
 
 
 img.responsive {
+    width: 200px;
     max-width: 200px;
-    height: auto;
+    height: 150px;
+    max-height: 150px;
     box-shadow: 0px 0px 5px 0px #888;
-    margin: 5px;
+    margin: 10px 5px;
 }
 
 img.responsive.no-margin {
@@ -901,7 +894,7 @@ dialog {
 }
 
 .note-card .mdl-card__supporting-text {
-    margin-bottom: 42px;
+    margin-bottom: 24px;
 }
 
 .note-card.mdl-card:hover .mdl-card____action__item {
@@ -912,18 +905,41 @@ dialog {
 
 .mdl-card____action {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 42px;
-    line-height: 42px;
+    top: 15px;
+    right: 0px;
+    height: 32px;
+    line-height: 32px;
     display: flex;
+    z-index: 10;
+    width: 72px;
+    margin: 0 auto;
 }
 
 .mdl-card____action__item:first-child {
     margin-left: 10px;
 }
+
+.mdl-card__action__icon__button {
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: transform .4s ease-in-out;
+    transition: transform .4s ease-in-out;    
+    transform: translateY(-50px);
+    height: fit-content;
+}
+
+.mdl-card__action__icon__button i.material-icons {
+    font-size: 14px !important;
+}
+
+.note-card.mdl-card:hover .mdl-card__action__icon__button {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px);
+}
+
+.mdl-card__action__icon__button:nth-child(1) { transition-delay: 0.1s; }
+.mdl-card__action__icon__button:nth-child(2) { transition-delay: 0.2s; }
 
 .mdl-card____action__item {
     flex-direction: column;
@@ -940,8 +956,9 @@ dialog {
     opacity: 0;
     -webkit-transition: transform .4s ease-in-out;
     transition: transform .4s ease-in-out;    
-    transform: translateY(50px);
+    transform: translateY(-50px);
     transform-origin: left bottom;
+    position: relative;
 }
 
 .mdl-card____action__item:nth-child(1) { transition-delay: 0.1s; }
@@ -1009,4 +1026,23 @@ dialog {
 
 .mdl-card__title.block__title {
     display: block!important;
+    width: calc(100% - 52px);
+}
+
+.note-card .mdl-card__supporting-text div {
+    margin-bottom: 6px;
+    line-height: 20px;
+}
+
+.note-card .mdl-card__title .mdl-card__title-text {
+    font-size: 20px;
+}
+
+@media screen and (max-width: 400px) {
+    .custom-dialog.mdl-dialog {
+        width: 100%!important;
+    }
+    .align-center {
+        width: 100%!important;
+    }
 }

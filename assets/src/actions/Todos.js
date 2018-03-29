@@ -15,10 +15,10 @@ function updateTodo(url, todo) {
   })).catch(err => console.log(err));
 }
 
-function deleteTodo(url) {
+function deleteTodo(url, id) {
   return api.get(url).then(res => ({
     type: actionType.DELETE_TODO,
-    id: res.details
+    id
   })).catch(err => console.log(err));
 }
 

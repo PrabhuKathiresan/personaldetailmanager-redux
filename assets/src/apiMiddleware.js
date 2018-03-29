@@ -73,6 +73,11 @@ const apiMiddleware = store => next => (action) => {
         next(response);
       }).catch(err => console.log(err));
       break;
+    case actionTypes.API_DELETE_TODO:
+      TodoActions.deleteTodo(`${url.delete.todos}?_id=${action.todo._id}`, action.todo._id).then((response) => {
+        next(response);
+      }).catch(err => console.log(err));
+      break;
     default:
       break;
   }
